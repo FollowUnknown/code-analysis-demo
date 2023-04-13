@@ -1,0 +1,4 @@
+/node_modules
+.DS_Store
+.vscode/
+code-analysis/node_modules/
