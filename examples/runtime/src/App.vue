@@ -2,6 +2,8 @@
   <div id="app">
     <img src="./assets/logo.png">
     <router-view/>
+    {{msg}}msg
+    <div :msg="msg" :msg1="msg1"></div>
   </div>
 </template>
 
@@ -10,6 +12,8 @@ export default {
   name: 'App',
   data () {
     return {
+      msg: '1',
+      mag1: '12',
       temp: {
         temp1: {
           temp2: {

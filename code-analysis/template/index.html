@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://qiqiao-public-1251961879.cos.ap-shanghai.myqcloud.com/ad3427b6-7011-4cf7-8803-7b088e7a3790/material/d3f669c318164547ab2d582bbf9a51fa/vue/vue.js"></script>
+    <link rel="stylesheet"
+      href="https://qiqiao-website-1251961879.cos.ap-shanghai.myqcloud.com/element-ui/1.5.1/lib/theme-chalk/index.css">
+    <script src="https://qiqiao-website-1251961879.cos.ap-shanghai.myqcloud.com/element-ui/1.5.1/lib/index.js"></script>
+    <title>依赖调用分析报告</title>
+    <style>
+     .header{
+        display: flex;
+        margin: 10px 0px;
+      }
+      .header:hover{
+        cursor: default;
+      }
+      .title{
+        font-size: 24px;
+        width: 690px;
+        display: flex;
+      }
+      .description {
+        display: flex;
+        margin: auto 0px;
+        color: #817e7e;
+        padding-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="header">
+        <div class="title">
+          <div>
+            {{reportTitle}}
+          </div>
+          <div>
+            {{reportTime}}
+          </div>
+        </div>
+      </div>
+      <!-- 分析日志 -->
+      <div v-for="plugin in pluginQueue">
+        <div>
+          插件名称：{{plugin}}
+        </div>
+        <div v-for="item in reportData[plugin].callFiles">
+          <!-- 文件路径 -->
+          <div>
+            文件路径：{{item.filePath}}
+          </div>
+          <!-- 日志表格 -->
+          <el-table :data="item.logs" style="width: 100%">
+            <el-table-column prop="level" label="错误等级" width="180">
+            </el-table-column>
+            <el-table-column prop="message" label="错误日志">
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+    </div>
+    <script src="./index.js"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        data() {
+          return {
+            reportTitle: '',
+            reportTime: '',
+            pluginQueue: [],
+            reportData: {}
+          }
+        },
+        created() {
+          this.reportTitle = report.reportTitle || '依赖调用分析报告'
+          this.reportTime = ' (' + report.analysisTime + ') '
+          document.title = this.reportTitle
+          this.reportData = report
+          this.pluginQueue = report.pluginQueue
+        }
+      })
+
+    </script>
+  </body>
+</html>
