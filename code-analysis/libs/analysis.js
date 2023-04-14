@@ -46,10 +46,10 @@ class CodeAnalysis {
         parseFiles.forEach((element, eIndex) => {
           try {
             if (type === CODEFILETYPE.VUE) {
-              const { ast, typeChecker, templateAST } = parseVue(element)
+              const params = parseVue(element)
               this._dealAST({
-                ast,
-                typeChecker,
+                ...params,
+                tsCompiler,
                 filePath: item.relativeFilePath[eIndex]
               })
             }
@@ -113,28 +113,32 @@ class CodeAnalysis {
   }
 
   // AST分析
-  _dealAST({ ast, typeChecker, filePath }) {
-    if (ast) {
-      // const walk = (node) => {
-      //   const nodeParams = {
-      //     node,
-      //     tsCompiler,
-      //     typeChecker,
-      //     filePath
-      //   }
-      //   this._runAnalysisPlugins(nodeParams)
-      //   // 深层次遍历AST节点
-      //   tsCompiler.forEachChild(node, walk)
-      // }
-      // walk(ast)
-      const nodeParams = {
-        node: ast,
-        tsCompiler,
-        typeChecker,
-        filePath
-      }
-      this._runAnalysisPlugins(nodeParams)
+  _dealAST(params) {
+    if (params) {
+      this._runAnalysisPlugins(params)
     }
+    // if (ast) {
+    //   // 旧版本
+    //   // const walk = (node) => {
+    //   //   const nodeParams = {
+    //   //     node,
+    //   //     tsCompiler,
+    //   //     typeChecker,
+    //   //     filePath
+    //   //   }
+    //   //   this._runAnalysisPlugins(nodeParams)
+    //   //   // 深层次遍历AST节点
+    //   //   tsCompiler.forEachChild(node, walk)
+    //   // }
+    //   // walk(ast)
+    //   const nodeParams = {
+    //     node: ast,
+    //     tsCompiler,
+    //     typeChecker,
+    //     filePath
+    //   }
+    //   this._runAnalysisPlugins(nodeParams)
+    // }
   }
 
   // 执行Target分析插件队列中的checkFun函数

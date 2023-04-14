@@ -23,6 +23,7 @@ exports.parseVue = function (fileName) {
   // 获取模版片段
   let templateCode = ''
   let templateAST = ''
+  const scriptVariables = {}
   children.forEach(element => {
     if (element.tag == 'template') {
       // ? templateContent += node.children.map(n => n.content).join('');
@@ -47,65 +48,14 @@ exports.parseVue = function (fileName) {
 
   // ======开始解析templateCode AST======
   if (templateCode) {
-    const ast = vueCompiler.parse(templateCode)
-    const variables = []
-
-function traverse(node) {
-  if (node.type === 1 /* Element */) {
-    for (const attr of node.props) {
-      console.log('ast:', attr.type, attr.name)
-      if (attr.type === 7 /* DIRECTIVE */ && attr.name === 'model') {
-        const match = /\b(\w+)\b/g.exec(attr.exp)
-        if (match) {
-          variables.push(match[1])
-        }
-      } else if (attr.type === 7 /* DIRECTIVE */ && attr.name === 'bind') {
-
-        if (attr.exp.type === 4 && !attr.exp.isStatic) {
-          const match = /\b(\w+)\b/g.exec(attr.exp.content)
-          if (match) {
-            variables.push(match[1])
-          }
-        }
-
-
-      } else if (attr.type === 7 /* DIRECTIVE */ && attr.name === 'if') {
-
-        if (attr.exp.type === 4 && !attr.exp.isStatic) {
-          const match = /\b(\w+)\b/g.exec(attr.exp.content)
-          if (match) {
-            variables.push(match[1])
-          }
-        }
-
-
-      }
-    }
-  } else if (node.type === 5 /* Expression */) {
-    const match = /[\w.]+/g.exec(node.content.content)
-    if (match) {
-      variables.push(match[0])
-    }
-  }
-  if (node.children) {
-    for (const child of node.children) {
-      traverse(child)
-    }
-  }
-}
-
-traverse(ast)
-
-console.log('Variables:', variables)
+    templateAST = vueCompiler.parse(templateCode)
   }
   // ======结束解析templateCode AST======
   return {
-    source: {
-      scriptCode,
-      templateCode
-    },
-    ast: scriptAST,
-    typeChecker: scriptTypeChecker,
+    scriptCode,
+    scriptAST,
+    scriptTypeChecker,
+    templateCode,
     templateAST
   }
 }
