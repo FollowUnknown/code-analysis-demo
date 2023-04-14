@@ -2,18 +2,17 @@
   <div id="app">
     <img src="./assets/logo.png">
     <router-view/>
-    {{msg}}msg
-    <div :msg="msg" :msg1="msg1"></div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
+  props: {
+    bbb: '11'
+  },
   data () {
     return {
-      msg: '1',
-      mag1: '12',
       temp: {
         temp1: {
           temp2: {
@@ -21,6 +20,11 @@ export default {
           }
         }
       }
+    }
+  },
+  computed: {
+    aaa() {
+      return this.temp
     }
   },
   methods: {

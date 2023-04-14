@@ -22,22 +22,22 @@ async function scan () {
     const config = {
       // 必须，待扫描源码的配置信息
       scanSource: [
-        // {
-        //   // 必填，项目名称
-        //   name: 'console',
-        //   // 默认读取工程Path
-        //   // gitlab- merge 直接返回对应的文件列表, 在本地处理
-        //   type: 'gitlab-merge',
-        //   // 可选，package.json 文件路径配置，用于收集依赖的版本信息
-        //   packageFile: 'package.json',
-        //   extra: {
-        //     // 对应类型必填
-        //     projectId: '858',
-        //     mergeRequestId: '8076'
-        //   }
-        //   // 可选，项目gitlab/github url的访问前缀，用于点击行信息跳转，不填则不跳转
-        //   // httpRepo: `hhttps://github.com/FollowUnknown/code-analysis-demo/blob/${getGitBranch()}/`
-        // },
+        {
+          // 必填，项目名称
+          name: 'console',
+          // 默认读取工程Path
+          // gitlab- merge 直接返回对应的文件列表, 在本地处理
+          type: 'gitlab-merge',
+          // 可选，package.json 文件路径配置，用于收集依赖的版本信息
+          packageFile: 'package.json',
+          extra: {
+            // 对应类型必填
+            projectId: '858',
+            mergeRequestId: '8076'
+          }
+          // 可选，项目gitlab/github url的访问前缀，用于点击行信息跳转，不填则不跳转
+          // httpRepo: `hhttps://github.com/FollowUnknown/code-analysis-demo/blob/${getGitBranch()}/`
+        },
         {
           // 默认读取工程Path
           // 必填，项目名称
@@ -56,7 +56,7 @@ async function scan () {
     }
     const { report } = await analysis(config)
     // 输出分析报告
-    // writeReport('analysisReport', report)
+    writeReport('analysisReport', report)
     // TODO 输出诊断报告
   } catch (error) {
     console.log(error)

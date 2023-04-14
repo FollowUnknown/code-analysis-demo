@@ -8,6 +8,9 @@
 <script>
 export default {
   name: 'App',
+  props: {
+    bbb: '11'
+  },
   data () {
     return {
       temp: {
@@ -17,6 +20,11 @@ export default {
           }
         }
       }
+    }
+  },
+  computed: {
+    aaa() {
+      return this.temp
     }
   },
   methods: {
